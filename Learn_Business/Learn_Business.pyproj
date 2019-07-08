@@ -30,8 +30,12 @@
     <Compile Include="Reader\XMLreader.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Wiki\Extractor.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Wiki\" />
     <Folder Include="Reader\" />
   </ItemGroup>
   <ItemGroup>
