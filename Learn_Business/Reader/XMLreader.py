@@ -1,3 +1,5 @@
+import xml.etree.ElementTree as ET
+
 class XMLreader(object):
     """description of class"""
 
@@ -8,18 +10,18 @@ class XMLreader(object):
         file_path : str
             読み込み先のファイルパス。フルパスで指定。
 
-        lines : 
-            ファイルの中身。１行ずつ。
-
         contents :
             ファイルの中身。まとめて。
+
+        elements :
+            ファイルの中身をElementオブジェクトに変換したもの。
         """
         # ファイルをオープンする
         test_data = open(file_path, "r" ,encoding="utf-8")
 
-        # 行ごとにすべて読み込んでリストデータにする
-        #self.lines = test_data.readlines()
+        # ファイルをすべて読み込んでデータにする
         self.contents = test_data.read()
+        self.elements = ET.fromstring(self.contents)
 
         # ファイルをクローズする
         test_data.close()

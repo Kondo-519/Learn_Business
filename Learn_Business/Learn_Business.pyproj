@@ -33,6 +33,7 @@
     <Compile Include="Wiki\Extractor.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Wiki\WikiExtractor.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Wiki\" />
