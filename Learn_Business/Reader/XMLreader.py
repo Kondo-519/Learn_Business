@@ -21,6 +21,8 @@ class XMLreader(object):
 
         # ファイルをすべて読み込んでデータにする
         self.contents = test_data.read()
+
+        # XML形式の文章をXML形式のオブジェクトに変換
         self.elements = ET.fromstring(self.contents)
 
         # ファイルをクローズする

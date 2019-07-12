@@ -607,6 +607,7 @@ class Extractor(object):
             title_str = self.title + '\n'
         # https://www.mediawiki.org/wiki/Help:Magic_words
         colon = self.title.find(':')
+        # K-Comment: wiki特有のマジックワードの置き換えを行っている。?????
         if colon != -1:
             ns = self.title[:colon]
             pagename = self.title[colon+1:]
@@ -643,6 +644,9 @@ class Extractor(object):
         # $dom = $this->preprocessToDom( $text, $flag );
         # $text = $frame->expand( $dom );
         #
+
+        # K-Comment : ここが本質
+
         text = self.transform(text)
         text = self.wiki2text(text)
         text = compact(self.clean(text))

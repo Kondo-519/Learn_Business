@@ -1,6 +1,9 @@
 from Reader.XMLreader import XMLreader
-from Wiki.Extractor import Extractor
+from Wiki.WikiExtractor import Extractor
+from Wiki.WikiExtractor import compact
+from Wiki.WikiExtractorShell import WikiExtractorShell
 import subprocess
+
 
 # 1:inputデータ解析
 
@@ -8,13 +11,10 @@ import subprocess
 rpath = r"C:\Users\0729574\Documents\ai\学習用データ_20190702再配布\学習用データ_20190702再配布\06_パルプ・紙\204427.xml"
 reader = XMLreader(rpath)
 
-# XML形式の文章をXML形式のオブジェクトに変換
-element = Extractor(reader.contents).element
-
 wikiDocument = ""
 
 # 条件指定(tag名を指定)で要素へ順次アクセス
-for result in element.getiterator('text'):
+for result in reader.elements.getiterator('text'):
     print(result.tag, " : " ,result.text)
     wikiDocument = result.text
 
@@ -23,16 +23,11 @@ for result in element.getiterator('text'):
 #        print(child.tag, " : ", child.text)
 
 
-
 # ２。無駄な要素を排除
-path = ".\Wiki\WikiExtractor.py"
-command = "python %s %.\Wiki\WikiExtractor.py"
-
-subprocess.call(command.split())
-
-subprocess.call("python %s"  % path)
-
+wikiDocument = WikiExtractorShell.extractText(0, wikiDocument)
 
 # ３。MeCabに通す
-  
+ 
+print(wikiDocument)
+
 # 学習する
