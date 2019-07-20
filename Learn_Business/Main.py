@@ -30,12 +30,14 @@ node = tagger.parseToNode(wikiDocument)
 keywords = []
 
 while node:
-    if node.feature.split(",")[0] == "名詞":
-        #keywords.append(node.feature.split(",")[6])
-        keywords.append(node.surface)
+    if node.feature.split(",")[0] == "名詞" and node.feature.split(",")[6] != "*":
+        keywords.append(node.feature.split(",")[6])
+        #keywords.append(node.surface)
     node = node.next
 
 
 print(keywords)
+
+
 print(wikiDocument)
 # 学習する
