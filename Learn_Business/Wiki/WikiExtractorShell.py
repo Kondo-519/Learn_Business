@@ -12,14 +12,33 @@ class WikiExtractorShell(object):
 
     def extractText(self, wikiText):
         """
-        :param wikiText: wiki形式のテキスト
+        wiki形式のテキストをプレーン形式に変換する。
+
+        Parameters
+
+        ----------
+
+        wikiText : str
+
+            変換したいwiki形式のText。
+
+
+        Returns
+
+        -------
+
+        text : str
+
+            変換後のText。
+
         """
         ex = Extractor("id", "revid", "title", wikiText)
         
-        wikiText = ex.transform(wikiText)
-        wikiText = ex.wiki2text(wikiText)
-        wikiText = ex.clean(wikiText)
-        wikiText = re.sub('\\n\**','',wikiText)
-        wikiText = re.sub('== .{,10} ==','',wikiText)
+        text = wikiText
+        text = ex.transform(text)
+        text = ex.wiki2text(text)
+        text = ex.clean(text)
+        text = re.sub('\\n\**','',text)
+        text = re.sub('== .{,10} ==','',text)
 
-        return wikiText
+        return text

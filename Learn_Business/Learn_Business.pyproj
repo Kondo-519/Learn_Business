@@ -23,8 +23,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Learn_Business.py" />
+    <Compile Include="InputData.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MeCabShell\MeCabShell.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Reader\XMLreader.py">
@@ -36,6 +41,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="MeCabShell\" />
     <Folder Include="Wiki\" />
     <Folder Include="Reader\" />
   </ItemGroup>
