@@ -1,3 +1,5 @@
+import re
+
 class InputData(object):
     """
     主催者提供の「学習用データ」格納クラス
@@ -20,7 +22,7 @@ class InputData(object):
         プレーンなTextに変換し、形態素解析を行った主語の配列
     """
 
-    def __init__(self, category, title, text): # 初期化： インスタンス作成時に自動的に呼ばれる
+    def __init__(self, category, title, text):
         """
 
         Parameters
@@ -42,3 +44,44 @@ class InputData(object):
         self.category = category
         self.title = title
         self.text = text
+
+    def setAndCleanKeywords(self, keywords):
+        """
+        keywordの配列をクレンジングしながらセットする。所謂、ストップワードの排除。
+
+        Parameters
+
+        ----------
+
+        keywords : str[]
+
+            クレンジング対象のキーワード群
+
+        """
+        self.keywords = keywords
+        #末尾に「。」が付くワードの無害化
+
+        #Stopword辞書からストップワードを排除
+        with open("stopwords.txt") as f:
+            stopwords = f.read()
+            stopwords = stopwords.split()
+
+        self.keywords = [item for item in self.keywords if not item in stopwords]
+
+        #正規表現でひっかけるパターンの作成
+
+        #YYYY年、MM月、MM月DD日の排除
+        pattern = '[0-9]+年|[0-9]+月|[0-9]+月[0-9]+日'
+        #平成元年など和暦の排除
+        pattern += '|' + '(昭和|平成|大正|明治)(元|[0-9]+)年'
+        #%、X割の排除
+        pattern += '|' + '([0-9]+\.[0-9]+|[0-9]+)(%|割)'
+        #金額の排除
+        pattern += '|' + '[0-9]+(億|億円)|[0-9]+(万|万円)|[0-9]+円'
+        #X位、X番、X号、X[距離]の排除
+        pattern += '|' + '[0-9]+(位|番|号|部|km|m|cm|)'
+
+        #不要ワードの削除
+        self.keywords = [item for item in self.keywords if not re.match(pattern, item)]
+
+        

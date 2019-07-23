@@ -25,8 +25,8 @@ input.text = WikiExtractorShell.extractText(0, input.text)
 # MeCabに通して形態素解析を実施
 input.keywords = MeCabShell.Analysis(0,input.text)
 
-
 # inputData特有のゴミデータを削除
+input.setAndCleanKeywords(input.keywords)
 
 print(input.keywords)
 

@@ -37,6 +37,7 @@ class MeCabShell(object):
 
         while node:
             if node.feature.split(",")[0] == "名詞" and node.feature.split(",")[6] != "*":
+                #keywords.append(node.surface)
                 keywords.append(node.feature.split(",")[6])
             node = node.next
 
