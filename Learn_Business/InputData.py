@@ -60,6 +60,8 @@ class InputData(object):
         """
         self.keywords = keywords
         #末尾に「。」が付くワードの無害化
+        pattern = ".+。$"
+        self.keywords = [item[:-1] for item in self.keywords if not re.match(pattern, item)]
 
         #Stopword辞書からストップワードを排除
         with open("stopwords.txt") as f:
@@ -80,6 +82,8 @@ class InputData(object):
         pattern += '|' + '[0-9]+(億|億円)|[0-9]+(万|万円)|[0-9]+円'
         #X位、X番、X号、X[距離]の排除
         pattern += '|' + '[0-9]+(位|番|号|部|km|m|cm|)'
+        #負数の排除
+        pattern += '|' + '[-0-9][0-9]+'
 
         #不要ワードの削除
         self.keywords = [item for item in self.keywords if not re.match(pattern, item)]
