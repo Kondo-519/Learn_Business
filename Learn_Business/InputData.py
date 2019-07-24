@@ -1,6 +1,7 @@
 import re
 import os
 
+
 class InputData(object):
     """
     主催者提供の「学習用データ」格納クラス
@@ -64,6 +65,8 @@ class InputData(object):
         #pattern = ".+。$"
         #self.keywords = [item[:-1] for item in self.keywords if not re.match(pattern, item)]
 
+        #２byte文字の1byte化
+
         #Stopword辞書からストップワードを排除
         base = os.path.dirname(os.path.abspath(__file__))
         name = os.path.normpath(os.path.join(base, '.\stopwords.txt'))
@@ -87,9 +90,9 @@ class InputData(object):
         #X位、X番、X号、X[距離]の排除
         pattern += '|' + '[0-9]+(位|番|号|部|km|m|cm|)'
         #負数の排除
-        pattern += '|' + '\-[0-9]+'
+        pattern += '|' + '(－|−|-)[0-9]+'
+        #大文字数字の排除
+        pattern += '|' + '\d+'
 
         #不要ワードの削除
         self.keywords = [item for item in self.keywords if not re.match(pattern, item)]
-
-        

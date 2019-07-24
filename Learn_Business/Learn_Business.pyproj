@@ -14,7 +14,7 @@
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>C:\Users\0729574\Documents\ai\学習用データ_20190702再配布\学習用データ_20190702再配布\04_食料品</CommandLineArguments>
+    <CommandLineArguments>C:\Users\0729574\Documents\ai\学習用データ_20190702再配布\学習用データ_20190702再配布\18_精密機器</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

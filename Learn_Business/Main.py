@@ -47,15 +47,18 @@ print('{}/{}'.format(len(stopwords), len(fdist)))
 
 rpath = r"C:\Users\0729574\Documents\ai\output.txt"
 
-with open(rpath, mode='a') as f:
-    f.write('\n')
-    f.write(inputDataList[0].category)
-    f.write('\n')
+with open(rpath, mode='a', encoding='UTF-8') as f:
     mostWD = [str(n) for n in fdist.most_common(n)]
     for line in mostWD:
         f.write(inputDataList[0].category + ',' + line + '\n')
-    #f.writelines(mostWD)
     f.write('\n')
-    f.write('--------')
+
+rpath = r"C:\Users\0729574\Documents\ai\output2.txt"
+
+with open(rpath, mode='a', encoding='UTF-8') as f:
+    stpWD = [str(n) for n in stopwords]
+    for line in stpWD:
+        f.write(inputDataList[0].category + ',' + line + '\n')
+    f.write('\n')
 
 # 学習する
