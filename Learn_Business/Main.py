@@ -51,9 +51,11 @@ with open(rpath, mode='a') as f:
     f.write('\n')
     f.write(inputDataList[0].category)
     f.write('\n')
-    #f.write('most_words:' + fdist.most_common(n))
+    mostWD = [str(n) for n in fdist.most_common(n)]
+    for line in mostWD:
+        f.write(inputDataList[0].category + ',' + line + '\n')
+    #f.writelines(mostWD)
     f.write('\n')
     f.write('--------')
 
-print(wikiDocument)
 # 学習する
