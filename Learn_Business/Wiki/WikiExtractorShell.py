@@ -1,5 +1,4 @@
 from Wiki.WikiExtractor import Extractor
-import Wiki.WikiExtractor
 import re
 
 class WikiExtractorShell(object):

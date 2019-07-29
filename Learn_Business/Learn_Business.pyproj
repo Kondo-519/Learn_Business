@@ -26,6 +26,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Check_LearnData.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InputData.py">
       <SubType>Code</SubType>
     </Compile>

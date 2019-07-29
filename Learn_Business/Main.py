@@ -1,14 +1,12 @@
-from Reader.XMLreader import XMLreader
 from Reader.FolderReader import FolderReader
 from Wiki.WikiExtractorShell import WikiExtractorShell
 from MeCabShell.MeCabShell import MeCabShell
 from InputData import InputData
+from Check_LearnData import Check_LearnData
 import sys
 
 #一時的
-from collections import Counter
-import os
-import urllib.request
+
 
 #引数check
 if len(sys.argv) < 2 :
@@ -31,34 +29,8 @@ for data in inputDataList:
 for data in inputDataList:
     data.setAndCleanKeywords(data.keywords)
 
-#ワードの出現回数でコレクションの数をAdd
-fdist = Counter()
-for data in inputDataList:
-    for word in data.keywords:
-       fdist[word] += 1
-
-n=100
-min_freq=1
-common_words = {word for word, freq in fdist.most_common(n)}
-rare_words = {word for word, freq in fdist.items() if freq <= min_freq}
-stopwords = common_words.union(rare_words)
-print(fdist.most_common(n))
-print('{}/{}'.format(len(stopwords), len(fdist)))
-
-rpath = r"C:\Users\0729574\Documents\ai\output.txt"
-
-with open(rpath, mode='a', encoding='UTF-8') as f:
-    mostWD = [str(n) for n in fdist.most_common(n)]
-    for line in mostWD:
-        f.write(inputDataList[0].category + ',' + line + '\n')
-    f.write('\n')
-
-rpath = r"C:\Users\0729574\Documents\ai\output2.txt"
-
-with open(rpath, mode='a', encoding='UTF-8') as f:
-    stpWD = [str(n) for n in stopwords]
-    for line in stpWD:
-        f.write(inputDataList[0].category + ',' + line + '\n')
-    f.write('\n')
+# データの傾向分析用データを出力する。
+#cld = Check_LearnData(100,1,r'C:\Users\0729574\Documents\ai\output1.txt', r'C:\Users\0729574\Documents\ai\output2.txt')
+#cld.output_data(inputDataList)
 
 # 学習する
