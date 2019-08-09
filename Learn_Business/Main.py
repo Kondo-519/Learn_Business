@@ -3,6 +3,7 @@ from Wiki.WikiExtractorShell import WikiExtractorShell
 from MeCabShell.MeCabShell import MeCabShell
 from InputData import InputData
 from Check_LearnData import Check_LearnData
+import Analyzer.explore_data
 import sys
 
 #一時的
@@ -33,4 +34,9 @@ for data in inputDataList:
 #cld = Check_LearnData(100,1,r'C:\Users\0729574\Documents\ai\output1.txt', r'C:\Users\0729574\Documents\ai\output2.txt')
 #cld.output_data(inputDataList)
 
+#分析その２
+Analyzer.explore_data.plot_sample_length_distribution_inputData(inputDataList)
+
 # 学習する
+
+test = 1

@@ -26,6 +26,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Analyzer\explore_data.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Check_LearnData.py">
       <SubType>Code</SubType>
     </Compile>
@@ -51,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MeCabShell\" />
+    <Folder Include="Analyzer\" />
     <Folder Include="Wiki\" />
     <Folder Include="Reader\" />
   </ItemGroup>
