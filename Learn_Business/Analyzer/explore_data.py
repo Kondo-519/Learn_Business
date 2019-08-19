@@ -6,7 +6,7 @@ from __future__ import division
 from __future__ import print_function
 
 import numpy as np #need pip install numpy-1.17.0
-import matplotlib.pyplot as plt #need pip install japanize-matplotlib
+import matplotlib.pyplot as plt
 import japanize_matplotlib
 
 from collections import Counter
