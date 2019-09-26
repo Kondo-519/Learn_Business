@@ -55,6 +55,7 @@
   <ItemGroup>
     <Folder Include="MeCabShell\" />
     <Folder Include="Analyzer\" />
+    <Folder Include="Dic\" />
     <Folder Include="Wiki\" />
     <Folder Include="Reader\" />
   </ItemGroup>
@@ -73,6 +74,9 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dic\1.dict.txt" />
+    <Content Include="Dic\18.dict.txt" />
+    <Content Include="Dic\2.dict.txt" />
     <Content Include="stopwords.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
