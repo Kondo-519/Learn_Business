@@ -56,6 +56,7 @@
     <Folder Include="MeCabShell\" />
     <Folder Include="Analyzer\" />
     <Folder Include="Dic\" />
+    <Folder Include="test\" />
     <Folder Include="Study\" />
     <Folder Include="Study\24_保険\" />
     <Folder Include="Study\10_ゴム製品\" />
@@ -146,6 +147,16 @@
     <Content Include="Study\24_保険\621364.xml" />
     <Content Include="Study\24_保険\691279.xml" />
     <Content Include="Study\24_保険\888898.xml" />
+    <Content Include="test\0001.txt" />
+    <Content Include="test\0002.txt" />
+    <Content Include="test\0003.txt" />
+    <Content Include="test\0004.txt" />
+    <Content Include="test\0005.txt" />
+    <Content Include="test\0006.txt" />
+    <Content Include="test\0007.txt" />
+    <Content Include="test\0008.txt" />
+    <Content Include="test\0009.txt" />
+    <Content Include="test\0010.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
