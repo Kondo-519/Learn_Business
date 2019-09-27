@@ -57,7 +57,7 @@ dictionary = corpora.Dictionary(texts)
 
 # コーパス作成(文章ごとに「単語ID・出現頻度」タプル配列を持つデータ
 corpus = [dictionary.doc2bow(data.keywords) for data in inputDataList]
-corpora.MmCorpus.serialize(r'C:\Users\0729574\Documents\ai\2.mm', corpus)
+#corpora.MmCorpus.serialize(r'C:\Users\0729574\Documents\ai\2.mm', corpus)
 
 
 
