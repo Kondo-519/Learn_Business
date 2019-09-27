@@ -56,6 +56,8 @@
     <Folder Include="MeCabShell\" />
     <Folder Include="Analyzer\" />
     <Folder Include="Dic\" />
+    <Folder Include="Study\" />
+    <Folder Include="Study\24_保険\" />
     <Folder Include="Wiki\" />
     <Folder Include="Reader\" />
   </ItemGroup>
@@ -78,6 +80,28 @@
     <Content Include="Dic\18.dict.txt" />
     <Content Include="Dic\2.dict.txt" />
     <Content Include="stopwords.txt" />
+    <Content Include="Study\24_保険\1025031.xml" />
+    <Content Include="Study\24_保険\106854.xml" />
+    <Content Include="Study\24_保険\1408336.xml" />
+    <Content Include="Study\24_保険\1415967.xml" />
+    <Content Include="Study\24_保険\1421909.xml" />
+    <Content Include="Study\24_保険\1490434.xml" />
+    <Content Include="Study\24_保険\1563187.xml" />
+    <Content Include="Study\24_保険\1754179.xml" />
+    <Content Include="Study\24_保険\1763374.xml" />
+    <Content Include="Study\24_保険\1850522.xml" />
+    <Content Include="Study\24_保険\2022097.xml" />
+    <Content Include="Study\24_保険\254337.xml" />
+    <Content Include="Study\24_保険\2789996.xml" />
+    <Content Include="Study\24_保険\2864404.xml" />
+    <Content Include="Study\24_保険\3499035.xml" />
+    <Content Include="Study\24_保険\356570.xml" />
+    <Content Include="Study\24_保険\357427.xml" />
+    <Content Include="Study\24_保険\3786847.xml" />
+    <Content Include="Study\24_保険\449188.xml" />
+    <Content Include="Study\24_保険\621364.xml" />
+    <Content Include="Study\24_保険\691279.xml" />
+    <Content Include="Study\24_保険\888898.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
