@@ -96,9 +96,9 @@ hai = np.array(texts)
 vectorizer = TfidfVectorizer(analyzer=dictionary.doc2bow, use_idf=True, token_pattern=u'(?u)\\b\\w+\\b',min_df=0.05, max_df=0.8)
 vecs = vectorizer.fit_transform(hai)
 
-
 #テスト用データ作成
-train_data = data_all
+#train_data = data_all
+train_data = vecs.toarray()
 X_train, X_test, y_train, y_test = train_test_split(train_data, labels, test_size=0.3, random_state=1)
 
 #標準偏差取得
