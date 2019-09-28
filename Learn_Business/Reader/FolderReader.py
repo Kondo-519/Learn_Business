@@ -72,6 +72,8 @@ class FolderReader(object):
         for (path, xml) in xmlDatas:
             #フォルダ名をカテゴリーに指定
             category = os.path.basename(path.parent)
+            #先頭２文字だけ残す
+            category = category[:2]
             # 条件指定(tag名を指定)で要素へ順次アクセス
             for result in xml.elements.getiterator('title'):
                 title = result.text
