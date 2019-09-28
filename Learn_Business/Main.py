@@ -81,6 +81,7 @@ dictionary.filter_extremes(no_below = 5, no_above = 0.5)
 #ベクトル化
 def vec2dense(vec, num_terms):
     return list(matutils.corpus2dense([vec], num_terms=num_terms).T[0])
+# コーパス作成(文章ごとに「単語ID・出現頻度」タプル配列を持つデータ）し、ベクトル化
 data_all = [vec2dense(dictionary.doc2bow(texts[i]), len(dictionary)) for i in range(len(texts))]
 
 #2次元配列を作る。
@@ -110,12 +111,6 @@ X_test_std = sc.transform(X_test)
 ## SVM Model##
 from sklearn.svm import SVC
 
-#モデル作成(linear)
-model = SVC(kernel='linear')
-model.fit(X_train_std, y_train)
-#精度確認
-score = model.score(X_test_std, y_test)
-print('SVC(linear) score is {:.3g}'.format(score))
 
 #モデル作成(rbf)
 model = SVC(kernel='rbf')
@@ -124,10 +119,14 @@ model.fit(X_train_std, y_train)
 score = model.score(X_test_std, y_test)
 print('SVC(rbf) score is {:.3g}'.format(score))
 
-# コーパス作成(文章ごとに「単語ID・出現頻度」タプル配列を持つデータ
-corpus = [dictionary.doc2bow(data.keywords) for data in inputDataList]
-#corpora.MmCorpus.serialize(r'C:\Users\0729574\Documents\ai\2.mm', corpus)
+
+#モデル作成(linear)
+model = SVC(kernel='linear')
+model.fit(X_train_std, y_train)
+#精度確認
+score = model.score(X_test_std, y_test)
+print('SVC(linear) score is {:.3g}'.format(score))
 
 
-
-test = 1
+print(y_test)
+print(model.predict(X_test_std))
