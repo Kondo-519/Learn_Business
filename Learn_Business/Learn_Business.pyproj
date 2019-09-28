@@ -12,9 +12,9 @@
     <Name>Learn_Business</Name>
     <RootNamespace>Learn_Business</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
-    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>Global|PythonCore|3.7</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>C:\Users\0729574\Documents\ai\学習用データ_20190702再配布\学習用データ_20190702再配布\02_鉱業</CommandLineArguments>
+    <CommandLineArguments>X:\Projects\Learn_Business\Learn_Business\Study\09_石油・石炭製品</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

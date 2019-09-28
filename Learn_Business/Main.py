@@ -8,7 +8,9 @@ import sys
 
 #一時的
 import gensim
-from gensim import corpora
+from gensim import corpora, matutils
+
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 #引数check
 if len(sys.argv) < 2 :
@@ -50,10 +52,27 @@ for data in inputDataList:
 texts = []
 for data in inputDataList:
     texts.append(data.keywords)
+#texts = [texts.append(data.keywords) for data in inputDataList]
 
+#Dcitionaryを作成(https://qiita.com/tatsuya-miyamoto/items/f505dfa8d5307f8c6e98)
+#Dcitionary.token2id : 単語/idの辞書データ
+#Dcitionary.token2id : id/df値(出現文書数)の辞書データ
 dictionary = corpora.Dictionary(texts)
-#dictionary.save_as_text(r'C:\Users\0729574\Documents\ai\2.dict.txt')
-#dictionary.load_from_text(r'C:\Users\0729574\Documents\ai\18.dict.txt')
+#単語データをフィルタリング。
+#no_below: 「出現文書数≥指定値」になるような語のみを保持する（一定回数以下のゴミワードを削除）。
+#no_above: 「出現文書数/全文書数≤指定値」になるような語のみを保持する（多すぎるワードを削除）。
+#num_docs : 辞書作成に用いた全文章数
+#num_pocs : 辞書作成に用いた全単語数
+dictionary.filter_extremes(no_below = 5, no_above = 0.5)
+
+#ベクトル化
+def vec2dense(vec, num_terms):
+    return list(matutils.corpus2dense([vec], num_terms=num_terms).T[0])
+data_all = [vec2dense(dictionary.doc2bow(texts[i]), len(dictionary)) for i in range(len(texts))]
+
+#TfidfVectorizer
+vectorizer = TfidfVectorizer(use_idf=True, token_pattern=u'(?u)\\b\\w+\\b')
+vecs = vectorizer.fit_transform(texts)
 
 # コーパス作成(文章ごとに「単語ID・出現頻度」タプル配列を持つデータ
 corpus = [dictionary.doc2bow(data.keywords) for data in inputDataList]
