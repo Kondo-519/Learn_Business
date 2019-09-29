@@ -89,6 +89,9 @@ class ModelUtil(object):
         """
         self.texts = texts
         self.labels = labels
+        
+        #出力先フォルダ
+        self.outputFolder = Path(outputPath)
 
         #Dcitionaryを作成(https://qiita.com/tatsuya-miyamoto/items/f505dfa8d5307f8c6e98)
         #Dcitionary.token2id : 単語/idの辞書データ
@@ -101,6 +104,7 @@ class ModelUtil(object):
         #num_docs : 辞書作成に用いた全文章数
         #num_pocs : 辞書作成に用いた全単語数
         dictionary.filter_extremes(no_below = 5, no_above = 0.5)
+        dictionary.save(os.path.join(self.outputFolder, 'dct.dict'))
 
         #2次元配列を作る。
         np.set_printoptions(precision=2)
@@ -120,8 +124,7 @@ class ModelUtil(object):
         sc.fit(train_data)
         self.train_data_std = sc.transform(train_data)
 
-        #出力先フォルダ
-        self.outputFolder = Path(outputPath)
+
 
 
     def ValueSVM(self):
