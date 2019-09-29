@@ -41,7 +41,7 @@
     <Compile Include="MeCabShell\MeCabShell.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OutputModel.py">
+    <Compile Include="ModelUtil.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Reader\FolderReader.py">
