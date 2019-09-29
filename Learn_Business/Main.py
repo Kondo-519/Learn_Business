@@ -3,7 +3,7 @@ from Wiki.WikiExtractorShell import WikiExtractorShell
 from MeCabShell.MeCabShell import MeCabShell
 from InputData import InputData
 from Check_LearnData import Check_LearnData
-#import Analyzer.explore_data
+import OutputModel
 import sys
 
 #一時的
@@ -17,8 +17,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 #引数check
-if len(sys.argv) < 2 :
-    print("【Warn】引数が指定されていません。読み取り対象のフォルダパスを引数として指定してください。")
+if len(sys.argv) < 3 :
+    print("【Warn】引数が指定されていません。読み取り対象のフォルダパスと出力先のフォルダパスを引数として指定してください。")
     sys.exit
 
 # XML形式ファイル読み込み
@@ -65,7 +65,7 @@ for data in inputDataList:
 
 labels = [data.category for data in inputDataList]
 
-
+output = OutputModel(texts, labels)
 
 #Dcitionaryを作成(https://qiita.com/tatsuya-miyamoto/items/f505dfa8d5307f8c6e98)
 #Dcitionary.token2id : 単語/idの辞書データ
@@ -79,20 +79,16 @@ dictionary = corpora.Dictionary(texts)
 dictionary.filter_extremes(no_below = 5, no_above = 0.5)
 
 #ベクトル化
-def vec2dense(vec, num_terms):
-    return list(matutils.corpus2dense([vec], num_terms=num_terms).T[0])
+#def vec2dense(vec, num_terms):
+#    return list(matutils.corpus2dense([vec], num_terms=num_terms).T[0])
 # コーパス作成(文章ごとに「単語ID・出現頻度」タプル配列を持つデータ）し、ベクトル化
-data_all = [vec2dense(dictionary.doc2bow(texts[i]), len(dictionary)) for i in range(len(texts))]
+#data_all = [vec2dense(dictionary.doc2bow(texts[i]), len(dictionary)) for i in range(len(texts))]
 
 #2次元配列を作る。
 np.set_printoptions(precision=2)
 hai = np.array(texts)
 
 #TfidfVectorizer
-#vectorizer = TfidfVectorizer(analyzer=lambda x:x, use_idf=True, token_pattern=u'(?u)\\b\\w+\\b',min_df=0.05, max_df=0.8)
-#def analysis(text):
-#    return MeCabShell.Analysis(0,text)
-#vectorizer = TfidfVectorizer(analyzer=analysis, use_idf=True, token_pattern=u'(?u)\\b\\w+\\b',min_df=0.05, max_df=0.8)
 vectorizer = TfidfVectorizer(analyzer=dictionary.doc2bow, use_idf=True, token_pattern=u'(?u)\\b\\w+\\b',min_df=0.05, max_df=0.8)
 vecs = vectorizer.fit_transform(hai)
 
@@ -101,6 +97,9 @@ vecs = vectorizer.fit_transform(hai)
 train_data = vecs.toarray()
 X_train, X_test, y_train, y_test = train_test_split(train_data, labels, test_size=0.3, random_state=1)
 
+#モデル用データ作成
+
+
 #標準偏差取得
 sc = StandardScaler()
 sc.fit(X_train)
@@ -108,19 +107,30 @@ X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
 
+#モデル出力#
+import pickle
+import os
+from pathlib import Path
+output_path = Path(sys.argv[2])
+
 ## SVM Model##
+# https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
 from sklearn.svm import SVC
 
 
-#モデル作成(rbf)
-model = SVC(kernel='rbf')
+#評価用モデル作成(rbf)
+model = SVC(kernel='rbf', gamma ='auto')
 model.fit(X_train_std, y_train)
 #精度確認
 score = model.score(X_test_std, y_test)
 print('SVC(rbf) score is {:.3g}'.format(score))
 
+#保存用モデル作成
+model.fit(train_data, labels)
+filename = 'SVM_rbf_model.sav'
+pickle.dump(model, open(os.path.join(output_path, filename), 'wb'))
 
-#モデル作成(linear)
+#評価用モデル作成(linear)
 model = SVC(kernel='linear')
 model.fit(X_train_std, y_train)
 #精度確認

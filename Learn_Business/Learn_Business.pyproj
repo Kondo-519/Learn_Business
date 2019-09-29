@@ -14,7 +14,7 @@
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.7</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>X:\Projects\Learn_Business\Learn_Business\Study</CommandLineArguments>
+    <CommandLineArguments>X:\Projects\Learn_Business\Learn_Business\Study X:\Projects\Learn_Business\Learn_Business\Model</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -41,6 +41,9 @@
     <Compile Include="MeCabShell\MeCabShell.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OutputModel.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Reader\FolderReader.py">
       <SubType>Code</SubType>
     </Compile>
@@ -56,6 +59,7 @@
     <Folder Include="MeCabShell\" />
     <Folder Include="Analyzer\" />
     <Folder Include="Dic\" />
+    <Folder Include="Model\" />
     <Folder Include="test\" />
     <Folder Include="Study\" />
     <Folder Include="Study\24_保険\" />
