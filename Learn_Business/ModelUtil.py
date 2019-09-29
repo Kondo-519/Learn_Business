@@ -117,6 +117,7 @@ class ModelUtil(object):
         sc.fit(X_train)
         self.X_train_std = sc.transform(X_train)
         self.X_test_std = sc.transform(X_test)
+        sc.fit(train_data)
         self.train_data_std = sc.transform(train_data)
 
         #出力先フォルダ
