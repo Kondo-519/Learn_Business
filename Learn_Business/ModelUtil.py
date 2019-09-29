@@ -94,37 +94,26 @@ class ModelUtil(object):
         self.outputFolder = Path(outputPath)
 
         #Dcitionaryを作成(https://qiita.com/tatsuya-miyamoto/items/f505dfa8d5307f8c6e98)
-        #Dcitionary.token2id : 単語/idの辞書データ
-        #Dcitionary.token2id : id/df値(出現文書数)の辞書データ
         dictionary = corpora.Dictionary(texts)
 
         #単語データをフィルタリング。
         #no_below: 「出現文書数≥指定値」になるような語のみを保持する（一定回数以下のゴミワードを削除）。
         #no_above: 「出現文書数/全文書数≤指定値」になるような語のみを保持する（多すぎるワードを削除）。
-        #num_docs : 辞書作成に用いた全文章数
-        #num_pocs : 辞書作成に用いた全単語数
         dictionary.filter_extremes(no_below = 5, no_above = 0.5)
-        dictionary.save(os.path.join(self.outputFolder, 'dct.dict'))
 
         #2次元配列を作る。
         np.set_printoptions(precision=2)
 
         #TfidfVectorizer
         vectorizer = TfidfVectorizer(analyzer=dictionary.doc2bow, use_idf=True, token_pattern=u'(?u)\\b\\w+\\b',min_df=0.05, max_df=0.8)
+        vectorizer = vectorizer.fit(np.array(texts))
+        pickle.dump(vectorizer, open(os.path.join(self.outputFolder, 'tfidf.pkl'), "wb"))
 
         #テスト用データ作成
-        train_data = vectorizer.fit_transform(np.array(texts)).toarray()
-        X_train, X_test, self.y_train, self.y_test = train_test_split(train_data, labels, test_size=0.3, random_state=1)
-
-        #標準化
-        sc = StandardScaler()
-        sc.fit(X_train)
-        self.X_train_std = sc.transform(X_train)
-        self.X_test_std = sc.transform(X_test)
-        sc.fit(train_data)
-        self.train_data_std = sc.transform(train_data)
-
-
+        self.train_data = vectorizer.transform(np.array(texts)).toarray()
+        pickle.dump(self.train_data, open(os.path.join(self.outputFolder, 'train_data.tmp'), "wb"))
+        pickle.dump(self.labels, open(os.path.join(self.outputFolder, 'labels.tmp'), "wb"))
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.train_data, self.labels, test_size=0.3, random_state=1)
 
 
     def ValueSVM(self):
@@ -133,16 +122,16 @@ class ModelUtil(object):
         """
         #評価用モデル作成(rbf)
         model = SVC(kernel='rbf', gamma ='auto')
-        model.fit(self.X_train_std, self.y_train)
+        model.fit(self.X_train, self.y_train)
         #精度確認
-        score = model.score(self.X_test_std, self.y_test)
+        score = model.score(self.X_test, self.y_test)
         print('SVC(rbf) score is {:.3g}'.format(score))
 
         #評価用モデル作成(linear)
         model = SVC(kernel='linear')
-        model.fit(self.X_train_std, self.y_train)
+        model.fit(self.X_train, self.y_train)
         #精度確認
-        score = model.score(self.X_test_std, self.y_test)
+        score = model.score(self.X_test, self.y_test)
         print('SVC(linear) score is {:.3g}'.format(score))
 
     def ValueDecisionTree(self):
@@ -152,10 +141,10 @@ class ModelUtil(object):
         for i in range(10):
             #評価用モデル作成(depth = i)
             model = DecisionTreeClassifier(max_depth=i+1)
-            model.fit(self.X_train_std, self.y_train)
+            model.fit(self.X_train, self.y_train)
 
             #精度確認
-            score = model.score(self.X_test_std, self.y_test)
+            score = model.score(self.X_test, self.y_test)
             print('desision tree of depth' + str(i+1) + ' score is {:.3g}'.format(score))
 
     def ValueRandomForest(self):
@@ -165,10 +154,10 @@ class ModelUtil(object):
         for i in range(10):
             #評価用モデル作成(depth = i)
             model = RandomForestClassifier(max_depth=i+1, n_estimators=100)
-            model.fit(self.X_train_std, self.y_train)
+            model.fit(self.X_train, self.y_train)
 
             #精度確認
-            score = model.score(self.X_test_std, self.y_test)
+            score = model.score(self.X_test, self.y_test)
             print('Random Forest of depth' + str(i+1) + ' score is {:.3g}'.format(score))
 
     def ValueNaiveBayes(self):
@@ -177,9 +166,9 @@ class ModelUtil(object):
         """
         #評価用モデル作成
         model = GaussianNB()
-        model.fit(self.X_train_std, self.y_train)
+        model.fit(self.X_train, self.y_train)
         #精度確認
-        score = model.score(self.X_test_std, self.y_test)
+        score = model.score(self.X_test, self.y_test)
         print('Naive Bayes score is {:.3g}'.format(score))
 
     def ValueLogistic(self):
@@ -188,9 +177,9 @@ class ModelUtil(object):
         """
         #評価用モデル作成
         model = LogisticRegression(solver = 'lbfgs', multi_class='auto')
-        model.fit(self.X_train_std, self.y_train)
+        model.fit(self.X_train, self.y_train)
         #精度確認
-        score = model.score(self.X_test_std, self.y_test)
+        score = model.score(self.X_test, self.y_test)
         print('Logistic score is {:.3g}'.format(score))
 
     #######ここからOutput######
@@ -200,12 +189,12 @@ class ModelUtil(object):
         SVMモデルを出力する。
         """
         model = SVC(kernel='rbf', gamma ='auto')
-        model.fit(self.train_data_std, self.labels)
+        model.fit(self.train_data, self.labels)
         filename = 'SVM_rbf_model.sav'
         pickle.dump(model, open(os.path.join(self.outputFolder, filename), 'wb'))
 
         model = SVC(kernel='linear', gamma ='auto')
-        model.fit(self.train_data_std, self.labels)
+        model.fit(self.train_data, self.labels)
         filename = 'SVM_linear_model.sav'
         pickle.dump(model, open(os.path.join(self.outputFolder, filename), 'wb'))
 
@@ -216,7 +205,7 @@ class ModelUtil(object):
         for i in range(10):
             #評価用モデル作成(depth = i)
             model = DecisionTreeClassifier(max_depth=i+1)
-            model.fit(self.train_data_std, self.labels)
+            model.fit(self.train_data, self.labels)
 
             filename = 'DecisionTree_mode_'+ str(i+1) +'.sav'
             pickle.dump(model, open(os.path.join(self.outputFolder, filename), 'wb'))
@@ -228,7 +217,7 @@ class ModelUtil(object):
         for i in range(10):
             #評価用モデル作成(depth = i)
             model = RandomForestClassifier(max_depth=i+1, n_estimators=100)
-            model.fit(self.train_data_std, self.labels)
+            model.fit(self.train_data, self.labels)
 
             filename = 'RandomForest_mode_'+ str(i+1) +'.sav'
             pickle.dump(model, open(os.path.join(self.outputFolder, filename), 'wb'))
@@ -238,7 +227,7 @@ class ModelUtil(object):
         NaiveBayesモデルを出力する。
         """
         model = model = GaussianNB()
-        model.fit(self.train_data_std, self.labels)
+        model.fit(self.train_data, self.labels)
         filename = 'NaiveBayes_model.sav'
         pickle.dump(model, open(os.path.join(self.outputFolder, filename), 'wb'))
 
@@ -247,7 +236,7 @@ class ModelUtil(object):
         Logisticモデルを出力する。
         """
         model = model = LogisticRegression(solver = 'lbfgs', multi_class='auto')
-        model.fit(self.train_data_std, self.labels)
+        model.fit(self.train_data, self.labels)
         filename = 'Logistic_model.sav'
         pickle.dump(model, open(os.path.join(self.outputFolder, filename), 'wb'))
 

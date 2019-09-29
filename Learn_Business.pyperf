@@ -4,5 +4,10 @@
     <TargetProject>77a2eb0c-e617-4c01-b805-87e9c11a48fc</TargetProject>
     <FriendlyName>Learn_Business</FriendlyName>
   </ProjectTarget>
+  <Reports>
+    <Report>
+      <Filename>X:\SYSTEMP\Learn_Business_20190928.vsp</Filename>
+    </Report>
+  </Reports>
   <UseVTune>false</UseVTune>
 </ProfilingTarget>
